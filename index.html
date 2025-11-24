@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FeltetFeltet</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="content-box">
+        <header>
+          <h1>FeltetFeltet</h1>
+        </header>
+        <main>
+          <section id="descriptionBox">
+            <p>
+              Welcome to FeltetFeltet! <br /><br />
+              Choose a category. A picture appears and you need the correct
+              answer. A timer of 45 seconds starts and you then have 45 seconds
+              to get as many correct as possible. Enter "pass" to skip current
+              picture and lose 3 seconds<br />Please select the quiz theme you
+              want to play.
+            </p>
+            <div id="themes">
+              <button id="chess" class="buttons">Chess</button>
+              <button id="flags" class="buttons">Flags</button>
+            </div>
+            <div id="themesContainer">
+              <div id="chessDescription">
+                Enter the name of the chess opening. For opening with attack,
+                defence and system don't include that part of the name. In
+                sicilians the sicilian part is included. It's a bit convouluted,
+                sue me.
+              </div>
+              <div id="flagsDescription">
+                Enter the name of the country whose flag is shown
+              </div>
+            </div>
+            <button id="startGame" class="buttons">Start game!</button>
+          </section>
+          <div id="pictureBox">
+            <img id="picture" src="flags/denmark.png" alt />
+          </div>
+          <p>Time left: <span id="timer">45</span> sek</p>
+          <label for="input">Answer: </label>
+          <input type="text" id="input" name="input" />
+          <p>Correct answers: <span id="correctGuesses">0</span></p>
+          <button id="playAgain" class="buttons">Play again</button>
+          <button id="backToStart" class="buttons">Back to start</button>
+          <br />
+          <label for="username">Name to save</label>
+          <input type="text" id="username" name="username" />
+          <button id="saveScore" class="buttons">Save score</button>
+          <p id="savedMessage"></p>
+        </main>
+      </div>
+    </div>
+    <footer></footer>
+  </body>
+</html>

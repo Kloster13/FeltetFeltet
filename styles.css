@@ -1,0 +1,122 @@
+:root {
+  /*Nautical Blues */
+  --blue1: #00072d;
+  --blue2: #001c55;
+  --blue3: #0a2472;
+  --blue4: #0e6ba8;
+  --blue5: #a6e1fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  background-color: var(--blue3);
+  margin: 0 0 0px;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+
+p,
+label,
+button {
+  font-size: 1.5rem;
+}
+
+header {
+  background-color: var(--blue5);
+}
+
+#container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-box {
+  background: var(--blue5);
+  margin-top: 100px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 800px;
+  height: 1000px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#descriptionBox {
+  display: flex;
+  margin-left: 30px;
+  margin-right: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: fit-content;
+  background-color: var(--blue5);
+}
+#themesContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: fit-content;
+}
+
+#themes {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 50px;
+  width: 200px;
+}
+#chessDescription,
+#flagsDescription {
+  font-size: 1.2rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#pictureBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  width: 800px;
+  background-color: var(--blue2);
+}
+img {
+  border: solid 0.1rem black;
+  max-width: 700px;
+  max-height: 480px;
+}
+
+input {
+  height: 30px;
+  width: 200px;
+  font-size: 1.2rem;
+}
+
+.buttons {
+  font-weight: bold;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.buttons:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.active {
+  background-color: var(--blue4);
+}
