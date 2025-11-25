@@ -16,11 +16,23 @@ const chessDescription = document.querySelector("#chessDescription");
 const flagsDescription = document.querySelector("#flagsDescription");
 const backButton = document.querySelector("#backToStart");
 
+let gameContent = []
+let timerValue = 45;
+let gameTimer = null;
+let gamePlaying;
+
+function getGameContent(game) {
+  fetch(game + ".json")
+    .then((response) => response.json())
+    .then((data) => {
+      gameContent = data;
+    })
+}
+
 pictureBox.classList.add("hidden");
 chessDescription.classList.add("hidden");
 flagsDescription.classList.add("hidden");
 
-let gamePlaying;
 chessButton.addEventListener("click", function () {
   chessDescription.classList.remove("hidden");
   chessButton.classList.add("active");
@@ -46,6 +58,7 @@ backButton.addEventListener("click", function () {
 });
 
 startGameButton.addEventListener("click", function () {
+  getGameContent(gamePlaying);
   pictureBox.classList.toggle("hidden");
   descriptionBox.classList.toggle("hidden");
   inputField.focus();
@@ -56,13 +69,8 @@ function getRandomElement(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
 function newRandomPicture() {
-  let jsonToFetch = gamePlaying + ".json";
-  fetch(jsonToFetch)
-    .then((response) => response.json())
-    .then((picture) => {
-      let picturePath = gamePlaying + "/" + getRandomElement(picture).src;
-      img.setAttribute("src", picturePath);
-    });
+  let picturePath = gamePlaying + "/" + getRandomElement(gameContent).src;
+  img.setAttribute("src", picturePath);
 }
 
 function handleGuess() {
@@ -95,8 +103,6 @@ inputField.addEventListener("keydown", function (event) {
 
 // play again  --- BURDE HAVE EN COUNTDOWN
 playAgainButton.addEventListener("click", function () {
-  inputField.disabled = false;
-  correctGuess.textContent = score;
   startGame();
 });
 
@@ -122,10 +128,9 @@ saveButton.addEventListener("click", function () {
   }
 });
 
-let timerValue = 45;
-let gameTimer = null;
-
 function startGame() {
+  inputField.disabled = false;
+  correctGuess.textContent = score;
   newRandomPicture();
   score = 0;
   timerValue = 45;
@@ -139,10 +144,14 @@ function startGame() {
       timerValue--;
       timer.textContent = timerValue;
     } else {
-      inputField.disabled = true;
-      clearInterval(gameTimer);
-      gameTimer = null;
+      endGame();
     }
   }
   gameTimer = setInterval(countdown, 1000);
+}
+
+function endGame() {
+  inputField.disabled = true;
+  clearInterval(gameTimer);
+  gameTimer = null;
 }
