@@ -1,5 +1,5 @@
 const img = document.querySelector("#picture");
-const inputField = document.querySelector("input");
+const inputField = document.querySelector("#input");
 const timer = document.querySelector("#timer");
 const saveButton = document.querySelector("#saveScore");
 const chessButton = document.querySelector("#chess");
@@ -16,22 +16,23 @@ const chessDescription = document.querySelector("#chessDescription");
 const flagsDescription = document.querySelector("#flagsDescription");
 const backButton = document.querySelector("#backToStart");
 
+let allGameContent = {};
+let score = 0;
 let gameContent = []
 let timerValue = 45;
 let gameTimer = null;
-let gamePlaying;
-
-function getGameContent(game) {
-  fetch(game + ".json")
-    .then((response) => response.json())
-    .then((data) => {
-      gameContent = data;
-    })
-}
-
+let gamePlaying = null;
 pictureBox.classList.add("hidden");
 chessDescription.classList.add("hidden");
-flagsDescription.classList.add("hidden");
+flagsDescription.classList.add("hidden")
+
+fetch("gameContent.json")
+  .then((response) => response.json())
+  .then((data) => {
+    allGameContent = data;
+    console.log(allGameContent);
+  })
+  .catch((error) => console.error("Error loading game content:", error));
 
 chessButton.addEventListener("click", function () {
   chessDescription.classList.remove("hidden");
@@ -58,11 +59,10 @@ backButton.addEventListener("click", function () {
 });
 
 startGameButton.addEventListener("click", function () {
-  getGameContent(gamePlaying);
+  gameContent = allGameContent[gamePlaying];
+  startGame()
   pictureBox.classList.toggle("hidden");
   descriptionBox.classList.toggle("hidden");
-  inputField.focus();
-  startGame();
 });
 
 function getRandomElement(array) {
@@ -71,6 +71,13 @@ function getRandomElement(array) {
 function newRandomPicture() {
   let picturePath = gamePlaying + "/" + getRandomElement(gameContent).src;
   img.setAttribute("src", picturePath);
+}
+
+function wrongAnswer() {
+  inputField.classList.add("wrong");
+  setTimeout(() => {
+    inputField.classList.remove("wrong");
+  }, 1500);
 }
 
 function handleGuess() {
@@ -91,13 +98,14 @@ function handleGuess() {
     timerValue -= 3;
     newRandomPicture();
   } else {
-    return false;
+    console.log("wrong answer");
+    wrongAnswer();
   }
 }
 
 inputField.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
-    console.log(handleGuess());
+    handleGuess();
   }
 });
 
@@ -130,13 +138,14 @@ saveButton.addEventListener("click", function () {
 
 function startGame() {
   inputField.disabled = false;
-  correctGuess.textContent = score;
+  inputField.focus();
   newRandomPicture();
   score = 0;
   timerValue = 45;
+  correctGuess.textContent = score;
   if (gameTimer !== null) {
     clearInterval(gameTimer);
-    gametimer = null;
+    gameTimer = null;
   }
   timer.textContent = timerValue;
   function countdown() {

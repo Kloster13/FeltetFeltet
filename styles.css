@@ -10,6 +10,7 @@
 * {
   box-sizing: border-box;
 }
+
 html,
 body {
   background-color: var(--blue3);
@@ -58,6 +59,7 @@ header {
   width: fit-content;
   background-color: var(--blue5);
 }
+
 #themesContainer {
   display: flex;
   flex-direction: column;
@@ -77,6 +79,7 @@ header {
   height: 50px;
   width: 200px;
 }
+
 #chessDescription,
 #flagsDescription {
   font-size: 1.2rem;
@@ -92,6 +95,7 @@ header {
   width: 800px;
   background-color: var(--blue2);
 }
+
 img {
   border: solid 0.1rem black;
   max-width: 700px;
@@ -102,7 +106,13 @@ input {
   height: 30px;
   width: 200px;
   font-size: 1.2rem;
+  border: 2px solid black;
 }
+
+.wrong {
+  border: 3px solid red;
+}
+
 
 .buttons {
   font-weight: bold;
