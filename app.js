@@ -16,19 +16,19 @@ const chessDescription = document.querySelector("#chessDescription");
 const flagsDescription = document.querySelector("#flagsDescription");
 const backButton = document.querySelector("#backToStart");
 const leaderboards = document.querySelector("ol");
-const leaderboardsText = document.querySelector("#showLeaderboard")
+const leaderboardsText = document.querySelector("#showLeaderboard");
 
 let allGameContent = {};
 let score = 0;
-let gameContent = []
+let gameContent = [];
 let timerValue = 45;
 let gameTimer = null;
 let gamePlaying = null;
-saveButton.disabled=true;
-backButton.disabled=true
+saveButton.disabled = true;
+backButton.disabled = true;
 pictureBox.classList.add("hidden");
 chessDescription.classList.add("hidden");
-flagsDescription.classList.add("hidden")
+flagsDescription.classList.add("hidden");
 
 fetch("gameContent.json")
   .then((response) => response.json())
@@ -44,7 +44,7 @@ chessButton.addEventListener("click", function () {
   flagsDescription.classList.add("hidden");
   flagsButton.classList.remove("active");
   gamePlaying = "chess";
-  showHighscore()
+  showHighscore();
 });
 
 flagsButton.addEventListener("click", function () {
@@ -53,26 +53,45 @@ flagsButton.addEventListener("click", function () {
   chessDescription.classList.add("hidden");
   chessButton.classList.remove("active");
   gamePlaying = "flags";
-  showHighscore()
+  showHighscore();
 });
 
 backButton.addEventListener("click", function () {
-  backButton.disabled=true
+  backButton.disabled = true;
   clearInterval(gameTimer);
   pictureBox.classList.toggle("hidden");
   descriptionBox.classList.toggle("hidden");
 });
 
 startGameButton.addEventListener("click", function () {
-  gameContent = allGameContent[gamePlaying];
-  startGame()
+  startGame();
   pictureBox.classList.toggle("hidden");
   descriptionBox.classList.toggle("hidden");
 });
 
+inputField.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    handleGuess();
+  }
+});
+
+playAgainButton.addEventListener("click", function () {
+  startGame();
+});
+
+saveButton.addEventListener("click", function () {
+  saveHighscore();
+  savedMessage.textContent = "Leaderboards updated";
+  endGame();
+  saveButton.disabled = true;
+  nameToSave.value = "";
+});
+
 function newRandomPicture() {
-  let randomElement = gameContent[Math.floor(Math.random() * gameContent.length)]
+  let randomInt = Math.floor(Math.random() * gameContent.length);
+  let randomElement = gameContent[randomInt];
   let picturePath = gamePlaying + "/" + randomElement.src;
+  gameContent.splice(randomInt, 1);
   img.setAttribute("src", picturePath);
 }
 
@@ -84,7 +103,7 @@ function wrongAnswer() {
 }
 
 function correctAnswer() {
-  inputField.classList.add("correct")
+  inputField.classList.add("correct");
   setTimeout(() => {
     inputField.classList.remove("correct");
   }, 1000);
@@ -100,13 +119,15 @@ function handleGuess() {
     .replace(".png", "");
   inputField.value = "";
   if (text == currentCountry) {
-    correctAnswer()
+    correctAnswer();
     score++;
     correctGuess.textContent = score;
     newRandomPicture();
     return true;
-  } else if (text === "pass") {
+  } else if (text === "pass" || text === "p") {
+    passedAnswer(currentCountry);
     timerValue -= 3;
+    correctGuess.textContent = score;
     newRandomPicture();
   } else {
     console.log("wrong answer");
@@ -114,35 +135,27 @@ function handleGuess() {
   }
 }
 
-// Enter answer
-inputField.addEventListener("keydown", function (event) {
-  if (event.key === "Enter") {
-    handleGuess();
-  }
-});
+function passedAnswer(answer) {
+  savedMessage.textContent = "Passed answer was " + answer;
+  setTimeout(() => {
+    savedMessage.textContent = "";
+  }, 2000);
+}
 
-// play again
-playAgainButton.addEventListener("click", function () {
-  startGame();
-});
-
-// save high score
-saveButton.addEventListener("click", function () {
-  saveHighscore()
-  savedMessage.textContent = "Leaderboards updated";
-  endGame()
-  saveButton.disabled=true
-  nameToSave.value=""
-});
-
-function startGame() {
-  backButton.disabled=false;
-  saveButton.disabled=false;
-  inputField.disabled = false;
-  inputField.focus();
-  newRandomPicture();
+function loadGame() {
   score = 0;
   timerValue = 45;
+  gameContent = allGameContent[gamePlaying];
+  window.scrollTo(0, 0);
+  backButton.disabled = false;
+  saveButton.disabled = false;
+  inputField.disabled = false;
+  inputField.focus();
+}
+
+function startGame() {
+  loadGame();
+  newRandomPicture();
   correctGuess.textContent = score;
   if (gameTimer !== null) {
     clearInterval(gameTimer);
@@ -161,37 +174,37 @@ function startGame() {
 }
 
 function endGame() {
-  inputField.disabled = true
+  inputField.disabled = true;
   inputField.value = "";
   clearInterval(gameTimer);
   gameTimer = null;
 }
 
 function saveHighscore() {
-  let jsonStored = localStorage.getItem(gamePlaying + "Score")
+  let jsonStored = localStorage.getItem(gamePlaying + "Score");
   let highscore = JSON.parse(jsonStored) || [];
 
   let highscoreToSave = {
     name: nameToSave.value,
-    score: score
+    score: score,
   };
 
-  highscore.push(highscoreToSave)
-  highscore = highscore.sort((a, b) => b.score - a.score).slice(0, 5)
+  highscore.push(highscoreToSave);
+  highscore = highscore.sort((a, b) => b.score - a.score).slice(0, 5);
 
-  localStorage.setItem(gamePlaying + "Score", JSON.stringify(highscore))
-  showHighscore()
+  localStorage.setItem(gamePlaying + "Score", JSON.stringify(highscore));
+  showHighscore();
 }
 
 function showHighscore() {
-  let jsonStored = localStorage.getItem(gamePlaying + "Score")
+  let jsonStored = localStorage.getItem(gamePlaying + "Score");
   let highscore = JSON.parse(jsonStored) || [];
 
-  leaderboards.innerHTML = ""
-  highscore.forEach(p => {
-    let li = document.createElement("li")
-    li.textContent = p.name + " - " + p.score
-    leaderboards.append(li)
-  })
-  leaderboardsText.textContent=gamePlaying
+  leaderboards.innerHTML = "";
+  highscore.forEach((p) => {
+    let li = document.createElement("li");
+    li.textContent = p.name + " - " + p.score;
+    leaderboards.append(li);
+  });
+  leaderboardsText.textContent = gamePlaying;
 }
