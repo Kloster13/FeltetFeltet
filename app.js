@@ -8,7 +8,6 @@ const playAgainButton = document.querySelector("#playAgain");
 const correctGuess = document.querySelector("#correctGuesses");
 const nameToSave = document.querySelector("#username");
 const savedMessage = document.querySelector("#savedMessage");
-
 const startGameButton = document.querySelector("#startGame");
 const pictureBox = document.querySelector("#pictureBox");
 const descriptionBox = document.querySelector("#descriptionBox");
@@ -19,13 +18,14 @@ const leaderboards = document.querySelector("ol");
 const leaderboardsText = document.querySelector("#showLeaderboard");
 
 let allGameContent = {};
-let score = 0;
 let gameContent = [];
+let score = 0;
 let timerValue = 45;
 let gameTimer = null;
 let gamePlaying = null;
 saveButton.disabled = true;
 backButton.disabled = true;
+playAgainButton.disabled=true
 pictureBox.classList.add("hidden");
 chessDescription.classList.add("hidden");
 flagsDescription.classList.add("hidden");
@@ -58,6 +58,7 @@ flagsButton.addEventListener("click", function () {
 
 backButton.addEventListener("click", function () {
   backButton.disabled = true;
+  playAgainButton.disabled=true
   clearInterval(gameTimer);
   pictureBox.classList.toggle("hidden");
   descriptionBox.classList.toggle("hidden");
@@ -81,7 +82,10 @@ playAgainButton.addEventListener("click", function () {
 
 saveButton.addEventListener("click", function () {
   saveHighscore();
-  savedMessage.textContent = "Leaderboards updated";
+  savedMessage.textContent = "Leaderboards updated!";
+    setTimeout(() => {
+    savedMessage.textContent = "";
+  }, 2000);
   endGame();
   saveButton.disabled = true;
   nameToSave.value = "";
@@ -150,6 +154,7 @@ function loadGame() {
   backButton.disabled = false;
   saveButton.disabled = false;
   inputField.disabled = false;
+  playAgainButton.disabled=false;
   inputField.focus();
 }
 
