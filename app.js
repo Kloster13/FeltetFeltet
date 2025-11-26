@@ -15,6 +15,8 @@ const descriptionBox = document.querySelector("#descriptionBox");
 const chessDescription = document.querySelector("#chessDescription");
 const flagsDescription = document.querySelector("#flagsDescription");
 const backButton = document.querySelector("#backToStart");
+const leaderboards = document.querySelector("ol");
+const leaderboardsText = document.querySelector("#showLeaderboard")
 
 let allGameContent = {};
 let score = 0;
@@ -22,6 +24,8 @@ let gameContent = []
 let timerValue = 45;
 let gameTimer = null;
 let gamePlaying = null;
+saveButton.disabled=true;
+backButton.disabled=true
 pictureBox.classList.add("hidden");
 chessDescription.classList.add("hidden");
 flagsDescription.classList.add("hidden")
@@ -40,6 +44,7 @@ chessButton.addEventListener("click", function () {
   flagsDescription.classList.add("hidden");
   flagsButton.classList.remove("active");
   gamePlaying = "chess";
+  showHighscore()
 });
 
 flagsButton.addEventListener("click", function () {
@@ -48,12 +53,12 @@ flagsButton.addEventListener("click", function () {
   chessDescription.classList.add("hidden");
   chessButton.classList.remove("active");
   gamePlaying = "flags";
+  showHighscore()
 });
 
 backButton.addEventListener("click", function () {
+  backButton.disabled=true
   clearInterval(gameTimer);
-  timer.textContent = 45;
-  correctGuess.textContent = 0;
   pictureBox.classList.toggle("hidden");
   descriptionBox.classList.toggle("hidden");
 });
@@ -65,11 +70,9 @@ startGameButton.addEventListener("click", function () {
   descriptionBox.classList.toggle("hidden");
 });
 
-function getRandomElement(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
 function newRandomPicture() {
-  let picturePath = gamePlaying + "/" + getRandomElement(gameContent).src;
+  let randomElement = gameContent[Math.floor(Math.random() * gameContent.length)]
+  let picturePath = gamePlaying + "/" + randomElement.src;
   img.setAttribute("src", picturePath);
 }
 
@@ -77,7 +80,14 @@ function wrongAnswer() {
   inputField.classList.add("wrong");
   setTimeout(() => {
     inputField.classList.remove("wrong");
-  }, 1500);
+  }, 1000);
+}
+
+function correctAnswer() {
+  inputField.classList.add("correct")
+  setTimeout(() => {
+    inputField.classList.remove("correct");
+  }, 1000);
 }
 
 function handleGuess() {
@@ -90,6 +100,7 @@ function handleGuess() {
     .replace(".png", "");
   inputField.value = "";
   if (text == currentCountry) {
+    correctAnswer()
     score++;
     correctGuess.textContent = score;
     newRandomPicture();
@@ -103,40 +114,30 @@ function handleGuess() {
   }
 }
 
+// Enter answer
 inputField.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     handleGuess();
   }
 });
 
-// play again  --- BURDE HAVE EN COUNTDOWN
+// play again
 playAgainButton.addEventListener("click", function () {
   startGame();
 });
 
 // save high score
 saveButton.addEventListener("click", function () {
-  let objName = gamePlaying + "Highscore";
-
-  let highscore = {
-    username: nameToSave.value,
-    savedScore: score,
-  };
-  let storedScore = 0;
-  let storedJson = localStorage.getItem(objName);
-  if (storedJson != null) {
-    storedScore = JSON.parse(storedJson).savedScore;
-  }
-
-  if (highscore.savedScore > storedScore) {
-    localStorage.setItem(objName, JSON.stringify(highscore));
-    savedMessage.textContent = "Highscore saved!";
-  } else {
-    savedMessage.textContent = "Highscore not beat!";
-  }
+  saveHighscore()
+  savedMessage.textContent = "Leaderboards updated";
+  endGame()
+  saveButton.disabled=true
+  nameToSave.value=""
 });
 
 function startGame() {
+  backButton.disabled=false;
+  saveButton.disabled=false;
   inputField.disabled = false;
   inputField.focus();
   newRandomPicture();
@@ -160,7 +161,37 @@ function startGame() {
 }
 
 function endGame() {
-  inputField.disabled = true;
+  inputField.disabled = true
+  inputField.value = "";
   clearInterval(gameTimer);
   gameTimer = null;
+}
+
+function saveHighscore() {
+  let jsonStored = localStorage.getItem(gamePlaying + "Score")
+  let highscore = JSON.parse(jsonStored) || [];
+
+  let highscoreToSave = {
+    name: nameToSave.value,
+    score: score
+  };
+
+  highscore.push(highscoreToSave)
+  highscore = highscore.sort((a, b) => b.score - a.score).slice(0, 5)
+
+  localStorage.setItem(gamePlaying + "Score", JSON.stringify(highscore))
+  showHighscore()
+}
+
+function showHighscore() {
+  let jsonStored = localStorage.getItem(gamePlaying + "Score")
+  let highscore = JSON.parse(jsonStored) || [];
+
+  leaderboards.innerHTML = ""
+  highscore.forEach(p => {
+    let li = document.createElement("li")
+    li.textContent = p.name + " - " + p.score
+    leaderboards.append(li)
+  })
+  leaderboardsText.textContent=gamePlaying
 }
