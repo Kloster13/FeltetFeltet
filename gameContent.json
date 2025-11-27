@@ -1,125 +1,45 @@
 {
   "chess": [
-    {
-      "src": "alapinsicilian.png"
-    },
-    {
-      "src": "albincountergambit.png"
-    },
-    {
-      "src": "alekhine.png"
-    },
-    {
-      "src": "benoni.png"
-    },
-    {
-      "src": "blackmardiemergambit.png"
-    },
-    {
-      "src": "carokann.png"
-    },
-    {
-      "src": "catalan.png"
-    },
-    {
-      "src": "chigorin.png"
-    },
-    {
-      "src": "closedsicilian.png"
-    },
-    {
-      "src": "colle.png"
-    },
-    {
-      "src": "danishgambit.png"
-    },
-    {
-      "src": "dragonsicilian.png"
-    },
-    {
-      "src": "dutch.png"
-    },
-    {
-      "src": "elephantgambit.png"
-    },
-    {
-      "src": "english.png"
-    },
-    {
-      "src": "englundgambit.png"
-    },
-    {
-      "src": "french.png"
-    },
-    {
-      "src": "grunfeld.png"
-    },
-    {
-      "src": "italian.png"
-    },
-    {
-      "src": "jobavalondon.png"
-    },
-    {
-      "src": "kingsgambit.png"
-    },
-    {
-      "src": "kingsindian.png"
-    },
-    {
-      "src": "london.png"
-    },
-    {
-      "src": "modern.png"
-    },
-    {
-      "src": "nimzoindian.png"
-    },
-    {
-      "src": "nimzowitsch.png"
-    },
-    {
-      "src": "opensicilian.png"
-    },
-    {
-      "src": "petrov.png"
-    },
-    {
-      "src": "philidor.png"
-    },
-    {
-      "src": "pirc.png"
-    },
-    {
-      "src": "ponziani.png"
-    },
-    {
-      "src": "queensgambit.png"
-    },
-    {
-      "src": "reti.png"
-    },
-    {
-      "src": "ruylopez.png"
-    },
-    {
-      "src": "scandanavian.png"
-    },
-    {
-      "src": "scotch.png"
-    },
-    {
-      "src": "sicilian.png"
-    },
-    {
-      "src": "slav.png"
-    },
-    {
-      "src": "trompowsky.png"
-    },
-    {
-      "src": "vienna.png"
-    }
+    { "src": "alapinsicilian.png" },
+    { "src": "albincountergambit.png" },
+    { "src": "alekhine.png" },
+    { "src": "benoni.png" },
+    { "src": "blackmardiemergambit.png" },
+    { "src": "carokann.png" },
+    { "src": "catalan.png" },
+    { "src": "chigorin.png" },
+    { "src": "closedsicilian.png" },
+    { "src": "colle.png" },
+    { "src": "danishgambit.png" },
+    { "src": "dragonsicilian.png" },
+    { "src": "dutch.png" },
+    { "src": "elephantgambit.png" },
+    { "src": "english.png" },
+    { "src": "englundgambit.png" },
+    { "src": "french.png" },
+    { "src": "grunfeld.png" },
+    { "src": "italian.png" },
+    { "src": "jobavalondon.png" },
+    { "src": "kingsgambit.png" },
+    { "src": "kingsindian.png" },
+    { "src": "london.png" },
+    { "src": "modern.png" },
+    { "src": "nimzoindian.png" },
+    { "src": "nimzowitsch.png" },
+    { "src": "opensicilian.png" },
+    { "src": "petrov.png" },
+    { "src": "philidor.png" },
+    { "src": "pirc.png" },
+    { "src": "ponziani.png" },
+    { "src": "queensgambit.png" },
+    { "src": "reti.png" },
+    { "src": "ruylopez.png" },
+    { "src": "scandanavian.png" },
+    { "src": "scotch.png" },
+    { "src": "sicilian.png" },
+    { "src": "slav.png" },
+    { "src": "trompowsky.png" },
+    { "src": "vienna.png" }
   ],
   "flags": [
     { "src": "albania.png" },
